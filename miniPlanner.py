@@ -60,7 +60,7 @@ def make_effector(rule):
    if 'Consumes' in rule:
       consumes = [(item,rule['Consumes'][item]) for item in rule['Consumes']]
    if 'Produces' in rule:
-   	  produce = [(item,rule['Produces'][item]) for item in rule['Produces']]
+        produce = [(item,rule['Produces'][item]) for item in rule['Produces']]
    def effect(state):
       returnstate = state.copy()
       for i,a in consumes:
@@ -74,7 +74,7 @@ def make_effector(rule):
 
 def search(graph,initial,is_goal):
    num = 1
-	# print out how many of each item you can have
+   # print out how many of each item you can have
    mining = []
    if is_goal(initial):
       return
@@ -106,13 +106,13 @@ def search(graph,initial,is_goal):
          mining1Copy.append((curr[1][0], curr[1][1]))
          heu = steps[2] + curr[0] - 4
          for steps in adjlist:
-         	heappush(lookat, (heu, steps, mining1Copy))
+            heappush(lookat, (heu, steps, mining1Copy))
       return
    
 def make_graph(state):
-	for r in all_recipes:
-		if r.check(state):
-			yield (r.name, r.effect(state), r.cost, state.copy())
+   for r in all_recipes:
+      if r.check(state):
+         yield (r.name, r.effect(state), r.cost, state.copy())
 
 def is_goal(state):
    for item, amount in Crafting['Goal'].items():
@@ -124,22 +124,22 @@ def is_goal(state):
    return True
 
 def buildInventory():
-	for items in Crafting['Items']:
-	    maxInv[items] = 0
-	for action,rule in Crafting['Recipes'].items():
-	    if 'Requires' in rule:
-	        for each in rule["Requires"].keys():
-	            maxInv[each] = 1
-	    if 'Consumes' in rule:
-	        for each,amount in rule['Consumes'].items():
-	            if maxInv[each] < amount:
-	                maxInv[each] = amount
-	maxInv[u'wooden_axe'] = 0
-	maxInv[u'stone_axe'] = 0
-	maxInv[u'iron_axe'] = 0
-	maxInv[u'iron_pickaxe'] = 0
+   for items in Crafting['Items']:
+       maxInv[items] = 0
+   for action,rule in Crafting['Recipes'].items():
+       if 'Requires' in rule:
+           for each in rule["Requires"].keys():
+               maxInv[each] = 1
+       if 'Consumes' in rule:
+           for each,amount in rule['Consumes'].items():
+               if maxInv[each] < amount:
+                   maxInv[each] = amount
+   maxInv[u'wooden_axe'] = 0
+   maxInv[u'stone_axe'] = 0
+   maxInv[u'iron_axe'] = 0
+   maxInv[u'iron_pickaxe'] = 0
 
-if __name__ == '__main__':
+def start():
    Recipe = namedtuple('Recipe',['name','check','effect','cost'])
    all_recipes = []
    maxInv = {}
@@ -151,3 +151,5 @@ if __name__ == '__main__':
       all_recipes.append(recipe)
 
    search(make_graph,Crafting['Initial'],is_goal)
+
+start()
