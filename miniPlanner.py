@@ -139,15 +139,14 @@ def buildInventory():
 	maxInv[u'iron_axe'] = 0
 	maxInv[u'iron_pickaxe'] = 0
 
-if __name__ == '__main__':
-   Recipe = namedtuple('Recipe',['name','check','effect','cost'])
-   all_recipes = []
-   maxInv = {}
-   buildInventory()
-   for name, rule in Crafting['Recipes'].items():
-      checker = make_checker(rule)
-      effector = make_effector(rule)
-      recipe = Recipe(name, checker, effector, rule['Time'])
-      all_recipes.append(recipe)
+Recipe = namedtuple('Recipe',['name','check','effect','cost'])
+all_recipes = []
+maxInv = {}
+buildInventory()
+for name, rule in Crafting['Recipes'].items():
+   checker = make_checker(rule)
+   effector = make_effector(rule)
+   recipe = Recipe(name, checker, effector, rule['Time'])
+   all_recipes.append(recipe)
 
-   search(make_graph,Crafting['Initial'],is_goal)
+search(make_graph,Crafting['Initial'],is_goal)
